@@ -18,7 +18,7 @@ char *_getline()
 		return (NULL);
 	_memset(buffer, buf_size);
 	input = buffer;
-	ch = getchar
+	ch = getchar();
 
 		if (ch == -1)
 		{
@@ -29,7 +29,7 @@ char *_getline()
 				{
 					buf_size = buf_size * 2;
 					copy = buffer;
-					buf = malloc(sizeof(char) * buf_size);
+					buffer = malloc(sizeof(char) * buf_size);
 					if (buffer == NULL)
 					{
 						return (copy);

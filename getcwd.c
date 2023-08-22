@@ -5,7 +5,7 @@
  *
  * Return: return current working dir
 */
-char *getcwd()
+char *_getcwd()
 {
 	char *current_dir = NULL;
 	int s = 100;
@@ -34,29 +34,37 @@ char *getcwd()
 */
 char *get_cwd(char *fn)
 {
-	char *current_dir, *path;
-	int i, j;
+	int length = 0, index = 0;
+	char *curr_dir, *full_path;
 
-	current_dir = getcwd();
-	if (!current_dir)
+	curr_dir = _getcwd();
+	if (!curr_dir)
 		return (NULL);
-	for (i = 0; current_dir[i]; i++)
-		;
-	for (j = 0; fn[j]; j++)
-		;
-	path = malloc(sizeof(char) * (i + j + 2));
-	if (!path)
+	while (curr_dir[length]) 
+		length++;
+	while (fn[index])
+	{
+		index++;
+		length++;
+	}
+	full_path = malloc(sizeof(char) * (length + 1));
+	if (!full_path)
 		return (NULL);
-	_memset(path, 0, i + j + 2);
-	for (i = 0; current_dir[i]; i++)
+	_memset(full_path, length + 1);
+	length = 0;
+	index = 0;
+	while (curr_dir[length])
 	{
-		path[i] = current_dir[i];
+		full_path[length] = curr_dir[length];
+		length++;
 	}
-	path[i++] = '/';
-	for (j = 0; fn[j]; j++)
+	full_path[length] = '/';
+	length++;
+	while (fn[index])
 	{
-		path[i++] = fn[j];
+		full_path[length + index] = fn[index];
+		index++; 
 	}
-	free(current_dir);
-	return (path);
+	free(curr_dir);
+	return (full_path);
 }

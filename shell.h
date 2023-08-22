@@ -24,14 +24,14 @@ typedef struct flags
 
 size_t strlen(const char *s);
 size_t wordlen(char **s);
-int strcpy(char *dest, char *src);
+int _strcpy(char *dest, char *src);
 char *strtok(char *str, char **ptr, char s);
 char *check_path(char *fn);
 char *get_path(char *fn, char *h);
 char *check_cwd(char *fn);
 char *get_cwd(char *fn);
 int _memset(char *mem, size_t size);
-char *getcwd();
+char *_getcwd();
 flag *gethead();
 void free_pointer(char *ptr);
 void release_string_array_memory(char *argv[]);

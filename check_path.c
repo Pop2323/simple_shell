@@ -66,14 +66,14 @@ char *get_path(char *fn, char *h)
 	if (path == NULL)
 		return (NULL);
 	_memset(path, len);
-	for (; homedir[i]; i++)
+	for (; h[i]; i++)
 	{
-		path[i] = homedir[i];
+		path[i] = h[i];
 	}
 	path[++i] = '/';
-	for (; filename[j]; j++)
+	for (; fn[j]; j++)
 	{
-		path[++i] = filename[j];
+		path[++i] = fn[j];
 	}
 	return (path);
 }
