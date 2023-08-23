@@ -9,20 +9,22 @@
  *
  * Return: return 0
 */
-int main(int ac, char **av, char *env[])
+int main(int ac, char **av, char **env)
 {
 	char *input_line = NULL, *resolved_command = NULL, *p = NULL;
 	char **c = NULL, **path_tokens = NULL;
 	ssize_t input_line_size = 0;
 	size_t buffersize = 0;
+	(void)env, (void)av;
 
 	if (ac < 1)
 		return (-1);
-	(void)env;
-	(void)av;
 	signal(SIGINT, handler);
 	while (1)
 	{
+		clear_buffer(c);
+		clear_buffer(path_tokens);
+		free(resolved_command);
 		user_input();
 		input_line_size = getline(&input_line, &buffersize, stdin);
 		if (input_line_size < 0)
@@ -31,9 +33,9 @@ int main(int ac, char **av, char *env[])
 		if (input_line[input_line_size - 1] == '\n')
 			input_line[input_line_size - 1] = '\0';
 		c = tokenizer(input_line);
-		if (c != NULL && *c != NULL && **c != '\0')
+		if (c == NULL || *c == NULL || **c == '\0')
 			continue;
-		if (!checker(c, input_line))
+		if (checker(c, input_line))
 			continue;
 		p = get_path();
 		path_tokens = tokenizer(p);
@@ -42,9 +44,6 @@ int main(int ac, char **av, char *env[])
 			perror(av[0]);
 		else
 			execute(resolved_command, c);
-		clear_buffer(c);
-		clear_buffer(path_tokens);
-		free(resolved_command);
 	}
 	if (input_line_size < 0 && flag_f.flag)
 		write(STDERR_FILENO, "\n", 1);
