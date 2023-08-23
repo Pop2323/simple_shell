@@ -14,7 +14,7 @@ int find_builtin(char **c, char *input_line)
 
 	if (_strcmp(*c, flag_b.env) == 0)
 	{
-		output_env();
+		echo_env();
 		return (1);
 	}
 	else if (_strcmp(*c, flag_b.exit) == 0)

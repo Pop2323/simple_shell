@@ -1,5 +1,5 @@
-#ifndef SHELL_H
-#define SHELL_H
+#ifndef HEADER_H
+#define HEADER_H
 
 #include <stdarg.h>
 #include <stdlib.h>
@@ -24,8 +24,8 @@ int find_builtin(char **c, char *input_line);
 int checker(char **cmd, char *buffer);
 char **tokenizer(char *input_line);
 void handler(int n);
-void output_env(void);
 void user_input(void);
+void echo_env(void);
 
 /*handler func*/
 int _strlen(char *str);
