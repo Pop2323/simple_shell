@@ -1,48 +1,78 @@
 #ifndef SHELL_H
 #define SHELL_H
 
-#include <stdio.h>
+#include <stdarg.h>
 #include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
 #include <unistd.h>
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <sys/wait.h>
 #include <sys/types.h>
+#include <sys/wait.h>
+#include <sys/stat.h>
+#include <stdbool.h>
+#include <time.h>
+
+/* env vars */
+extern char **environ;
+extern __sighandler_t signal(int __sig, __sighandler_t __handler);
+
+/*main unc*/
+char *check_path(char *p[], char *c);
+char *Add_to_path(char *p, char *c);
+char *terminate_cmd(char *c[], char *input_line);
+int find_builtin(char *c[], char *input_line);
+int checker(char *cmd[], char *buffer);
+char **tokenizer(char *input_line);
+void handler(int n);
+void return_env(void);
+void user_input(void);
+
+/*handler func*/
+int _strlen(char *str);
+int _strcmp(char *str1, char *str2);
+char *_strchr(char *str, char ch);
+char *_strdup(char *str);
+int _strncmp(char *str1, char *str2, int num);
+char *get_path(void);
+void clear_buffer(char *buffer[]);
+void execute(char *copy, char **cmd);
 
 /**
- * struct flags - the path of the file
+ * struct flag_b - struct that contain two ptr char
  *
- * @path: this is the path to the file
- * @next: ptr to next file
+ * @env: ptr char that refer to envirnoment
+ * @exit: ptr chat that refer to exit
  *
+ * description: struct that contain two ptr char
 */
-typedef struct flags
+struct flag_b
 {
-	char *path;
-	struct flags *next;
-} flag;
+	char *env;
+	char *exit;
+} flag_b;
 
-size_t strlen(const char *s);
-size_t wordlen(char **s);
-int _strcpy(char *dest, char *src);
-char *strtok(char *str, char **ptr, char s);
-char *check_path(char *fn);
-char *get_path(char *fn, char *h);
-char *check_cwd(char *fn);
-char *get_cwd(char *fn);
-int _memset(char *mem, size_t size);
-char *_getcwd();
-flag *gethead();
-void free_pointer(char *ptr);
-void release_string_array_memory(char *argv[]);
-int check_space(char *s);
-int handle_line(char *input);
-void exit_shell(char **, char *);
-int handle_argv(char **argv, char *line, int env_set, int pre_in, int pre_st);
-int _strcmp(char *dest, char *src);
-int is_defined(char *argv1, char *argv2);
-char *_abs_path(char **argv, char *cwd_path, char *path_in);
-void free_all_memory(char *input, char **argv, char *cwd_path, char *path);
-char *_getline();
+/**
+ * struct flag_t - struct that conatin two integer value
+ *
+ * @_exit: int for exit
+ * @_count: int for count
+ *
+ * description: struct that conatin two integer value
+*/
+struct flag_t
+{
+	int _exit;
+	int _count;
+} flag_t;
 
-#endif
+/**
+ * struct flag_f - struct that contain boolen value
+ *
+ * @flag: bool value for flag
+ *
+ * description: struct that contain boolen value
+*/
+struct flag_f
+{
+	bool flag;
+} flag_f;

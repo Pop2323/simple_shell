@@ -1,79 +1,24 @@
 #include "shell.h"
 
 /**
- * check_path - function that check the path
+ * check_path - func that check the path is correct
  *
- * @fn: file name char
+ * @p: char ptr to ptr to path
+ * @c: the user input
  *
- * Return: return null
+ * Return: return path if success otherwise NULL
 */
-char *check_path(char *fn)
+char *check_path(char *p[], char *c)
 {
-	char *p, *path_copy;
-	struct stat sb;
-	int status;
-	flag *head, *curr;
+	char *res;
+	int i = 0;
 
-	curr = head;
-	while (curr)
+	for (; path[i]; i++)
 	{
-		curr->path ? p = get_path(fn, curr->path) : curr = curr->next;
-		if (!p)
-		{
-			free_list(head);
-			return (NULL);
-		}
-		status = access(p, F_OK);
-		status == 0 ? free_list(head) : curr = curr->next ? curr->next : NULL;
-		free(p);
+		res = Add_to_path(p[i], c);
+		if (access(res, F_OK | X_OK) == 0)
+			return (res);
+		free(res);
 	}
-	free_list(head);
 	return (NULL);
-}
-
-/**
- * check_cwd - function that check the current working dir
- *
- * @fn: the filename path
- *
- * Return: return if success path otherwise null
-*/
-char *check_cwd(char *fn)
-{
-	char path;
-
-	path = *get_cwd(char *fn);
-
-	return ((access(path, F_OK | X_OK) == 0) ? path : (free(path), NULL));
-}
-
-/**
- * get_path - function that get the full path
- *
- * @fn: char file name
- *
- * @h: ptr char
- *
- * Return: return path
-*/
-char *get_path(char *fn, char *h)
-{
-	size_t i = 0, j = 0, len;
-	char *path;
-
-	len = strlen(fn) + strlen(h);
-	path = malloc(sizeof(char) * len);
-	if (path == NULL)
-		return (NULL);
-	_memset(path, len);
-	for (; h[i]; i++)
-	{
-		path[i] = h[i];
-	}
-	path[++i] = '/';
-	for (; fn[j]; j++)
-	{
-		path[++i] = fn[j];
-	}
-	return (path);
 }
