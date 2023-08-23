@@ -8,7 +8,7 @@
  *
  * Return: return 1 if success otherwise 0.
 */
-int find_builtin(char *c[], char *input_line)
+int find_builtin(char **c, char *input_line)
 {
 	struct flag_b flag_b = {"env", "exit"};
 

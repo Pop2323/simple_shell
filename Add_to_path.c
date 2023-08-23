@@ -26,7 +26,8 @@ char *Add_to_path(char *p, char *c)
 	}
 	if (p[i - 1] != '/')
 	{
-		buffer[i++] = '/';
+		buffer[i] = '/';
+		i++;
 	}
 	for (j = 0; c[j]; j++)
 	{

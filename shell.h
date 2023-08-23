@@ -17,11 +17,11 @@ extern char **environ;
 extern __sighandler_t signal(int __sig, __sighandler_t __handler);
 
 /*main unc*/
-char *check_path(char *p[], char *c);
+char *check_path(char **p, char *c);
 char *Add_to_path(char *p, char *c);
-char *terminate_cmd(char *c[], char *input_line);
-int find_builtin(char *c[], char *input_line);
-int checker(char *cmd[], char *buffer);
+void terminate_cmd(char **c, char *input_line);
+int find_builtin(char **c, char *input_line);
+int checker(char **cmd, char *buffer);
 char **tokenizer(char *input_line);
 void handler(int n);
 void output_env(void);
@@ -34,7 +34,7 @@ char *_strchr(char *str, char ch);
 char *_strdup(char *str);
 int _strncmp(char *str1, char *str2, int num);
 char *get_path(void);
-void clear_buffer(char *buffer[]);
+void clear_buffer(char **buffer);
 void execute(char *copy, char **cmd);
 
 /**
@@ -54,15 +54,15 @@ struct flag_b
 /**
  * struct flag_t - struct that conatin two integer value
  *
- * @_exit: int for exit
- * @_count: int for count
+ * @line_exit: int for exit
+ * @line_count: int for count
  *
  * description: struct that conatin two integer value
 */
 struct flag_t
 {
-	int _exit;
-	int _count;
+	int line_exit;
+	int line_count;
 } flag_t;
 
 /**

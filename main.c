@@ -13,7 +13,7 @@ int main(int ac, char **av, char **env)
 {
 	char *input_line = NULL, *resolved_command = NULL, *p = NULL;
 	char **c = NULL, **path_tokens = NULL;
-	ssize_t input_line_size = 0;
+	ssize_t input_size = 0;
 	size_t buffersize = 0;
 	(void)env, (void)av;
 
@@ -26,12 +26,12 @@ int main(int ac, char **av, char **env)
 		clear_buffer(path_tokens);
 		free(resolved_command);
 		user_input();
-		input_line_size = getline(&input_line, &buffersize, stdin);
-		if (input_line_size < 0)
+		input_size = getline(&input_line, &buffersize, stdin);
+		if (input_size < 0)
 			break;
-		flag_t._count++;
-		if (input_line[input_line_size - 1] == '\n')
-			input_line[input_line_size - 1] = '\0';
+		flag_t.line_count++;
+		if (input_line[input_size - 1] == '\n')
+			input_line[input_size - 1] = '\0';
 		c = tokenizer(input_line);
 		if (c == NULL || *c == NULL || **c == '\0')
 			continue;
@@ -45,7 +45,7 @@ int main(int ac, char **av, char **env)
 		else
 			execute(resolved_command, c);
 	}
-	if (input_line_size < 0 && flag_f.flag)
+	if (input_size < 0 && flag_f.flag)
 		write(STDERR_FILENO, "\n", 1);
 	free(input_line);
 	return (0);

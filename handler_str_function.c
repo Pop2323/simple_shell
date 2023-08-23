@@ -29,7 +29,7 @@ int _strlen(char *str)
 */
 char *_strchr(char *str, char ch)
 {
-	for (; *str; str++)
+	while (*str)
 	{
 		if (*str == ch)
 			return (str);
@@ -71,14 +71,9 @@ int _strcmp(char *str1, char *str2)
 {
 	int i, result;
 
-	for (i = 0; *(str1 + i) == *(str2 + i) && *(str1 + i) != '\0'; i++)
-	{
-		result = (*(str1 + i) - *(str2 + i));
-		if (result != 0)
-		{
-			return (result);
-		}
-	}
+	while (*(str1 + i) == *(str2 + i) && *(str1 + i) != '\0')
+		i++;
+	result = (*(str1 + i) - *(str2 + i));
 	return (result);
 }
 
@@ -94,7 +89,7 @@ char *_strdup(char *str)
 	int i = 0, str_len;
 	char *res;
 
-	if (!str)
+	if (str == NULL)
 		return (NULL);
 	str_len = _strlen(str);
 	res = malloc(sizeof(char) * (str_len + 1));

@@ -8,7 +8,7 @@
  *
  * Return: return void
 */
-char *terminate_cmd(char *c[], char *input_line)
+void terminate_cmd(char **c, char *input_line)
 {
 	free(input_line);
 	clear_buffer(c);
