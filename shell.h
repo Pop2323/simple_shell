@@ -24,7 +24,7 @@ int find_builtin(char *c[], char *input_line);
 int checker(char *cmd[], char *buffer);
 char **tokenizer(char *input_line);
 void handler(int n);
-void return_env(void);
+void output_env(void);
 void user_input(void);
 
 /*handler func*/
