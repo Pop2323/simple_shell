@@ -19,7 +19,7 @@ int find_builtin(char *c[], char *input_line)
 	}
 	else if (_strcmp(*c, flag_b.exit) == 0)
 	{
-		output_env(c, input_line);
+		terminate_cmd(c, input_line);
 		return (1);
 	}
 	return (0);

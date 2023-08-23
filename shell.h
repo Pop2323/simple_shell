@@ -76,3 +76,5 @@ struct flag_f
 {
 	bool flag;
 } flag_f;
+
+#endif

@@ -24,7 +24,7 @@ int main(int ac, char **av, char *env[])
 	while (1)
 	{
 		user_input();
-		input_line_size = get_line(&input_line, &buffersize, stdin);
+		input_line_size = getline(&input_line, &buffersize, stdin);
 		if (input_line_size < 0)
 			break;
 		flag_t._count++;

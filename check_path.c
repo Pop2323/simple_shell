@@ -13,7 +13,7 @@ char *check_path(char *p[], char *c)
 	char *res;
 	int i = 0;
 
-	for (; path[i]; i++)
+	for (; p[i]; i++)
 	{
 		res = Add_to_path(p[i], c);
 		if (access(res, F_OK | X_OK) == 0)
