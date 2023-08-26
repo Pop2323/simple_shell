@@ -1,52 +1,80 @@
 #include "shell.h"
 
 /**
- * main - this the main func
+ * main - function that similier the terminal
  *
- * @ac: the number of items in av
- * @av: the a NULL terminated array of str
- * @env: env is a NULL terminated array of strings
+ * @ac:  represents the num of cmd args
+ * @av: this stands for arg vector
  *
- * Return: return 0
+ * Return: return res value
 */
-int main(int ac, char **av, char **env)
+int main(int ac, char **av)
 {
-	char *input_line = NULL, *resolved_command = NULL, *p = NULL;
-	char **c = NULL, **path_tokens = NULL;
-	ssize_t input_size = 0;
-	size_t buffersize = 0;
-	(void)env, (void)av;
+	char *buf = NULL, *dlm = " \n";
+	ssize_t linesize = 0;
+	size_t buff_size = 0;
+	int res = 0;
+	(void)ac;
 
-	if (ac < 1)
-		return (-1);
-	signal(SIGINT, handler);
 	while (1)
 	{
-		clear_buffer(c);
-		clear_buffer(path_tokens);
-		free(resolved_command);
-		user_input();
-		input_size = getline(&input_line, &buffersize, stdin);
-		if (input_size < 0)
+		if (isatty(STDIN_FILENO))
+			printf(":) ");
+		linesize = getline(&buf, &buff_size, stdin);
+		if (linesize == -1 || _strcmp("exit\n", buf) == 0)
+		{
+			free(buf);
 			break;
-		flag_t.line_count++;
-		if (input_line[input_size - 1] == '\n')
-			input_line[input_size - 1] = '\0';
-		c = tokenizer(input_line);
-		if (c == NULL || *c == NULL || **c == '\0')
+		}
+		buf[linesize - 1] = '\0';
+		if (_strcmp("env", buf) == 0)
+		{
+			find_env();
 			continue;
-		if (checker(c, input_line))
+		}
+		if (is_all_spaces(buf) == 1)
+		{
+			res = 0;
 			continue;
-		p = get_path();
-		path_tokens = tokenizer(p);
-		resolved_command = check_path(path_tokens, c[0]);
-		if (!resolved_command)
-			perror(av[0]);
+		}
+		av = delim_separator(buf, dlm);
+		av[0] = find_path(av[0]);
+		if (av[0] != NULL)
+		{
+			res = execute(av);
+		}
 		else
-			execute(resolved_command, c);
+		{
+			perror("Error");
+		}
+		free(av);
 	}
-	if (input_size < 0 && flag_f.flag)
-		write(STDERR_FILENO, "\n", 1);
-	free(input_line);
-	return (0);
+	return (res);
+}
+
+/**
+ * execute - func that execute the cmd (termainal)
+ *
+ * @av: this stands for arg vector
+ *
+ * Return: return the reult value
+*/
+int execute(char **av)
+{
+	int result, pid;
+
+	pid = fork();
+
+	if (pid == 0)
+	{
+		if (execve(av[0], av, environ) == -1)
+			perror("Error");
+	}
+	else
+	{
+		wait(&result);
+		if (WIFEXITED(result))
+			result = WEXITSTATUS(result);
+	}
+	return (result);
 }
